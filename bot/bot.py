@@ -21,7 +21,7 @@ class MusicBot(commands.Bot):
     def run(self):
         self.setup()
 
-        TOKEN="ODM0Njg5MDQzMDQzNDUwODgw.YIEivw.-C3mEFgBFd-pzyNIA08uUqPc-7U"
+        TOKEN="TOKEN"
 
         print("Running bot...")
         super().run(TOKEN, reconnect=True)
