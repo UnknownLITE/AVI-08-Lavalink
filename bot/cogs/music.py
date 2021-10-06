@@ -7,9 +7,9 @@ import typing as t
 from enum import Enum
 
 import aiohttp
-import discord
+import nextcord
 import wavelink
-from discord.ext import commands
+from nextcord.ext import commands
 
 URL_REGEX = r"(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'\".,<>?«»“”‘’]))"
 LYRICS_URL = "https://some-random-api.ml/lyrics?title="
@@ -222,7 +222,7 @@ class Player(wavelink.Player):
                 and r.message.id == msg.id
             )
 
-        embed = discord.Embed(
+        embed = nextcord.Embed(
             title="Choose a song",
             description=(
                 "\n".join(
@@ -289,7 +289,7 @@ class Music(commands.Cog, wavelink.WavelinkMixin):
             await payload.player.advance()
 
     async def cog_check(self, ctx):
-        if isinstance(ctx.channel, discord.DMChannel):
+        if isinstance(ctx.channel, nextcord.DMChannel):
             await ctx.send("Music commands are not available in DMs.")
             return False
 
@@ -315,11 +315,11 @@ class Music(commands.Cog, wavelink.WavelinkMixin):
     def get_player(self, obj):
         if isinstance(obj, commands.Context):
             return self.wavelink.get_player(obj.guild.id, cls=Player, context=obj)
-        elif isinstance(obj, discord.Guild):
+        elif isinstance(obj, nextcord.Guild):
             return self.wavelink.get_player(obj.id, cls=Player)
 
     @commands.command(name="connect", aliases=["join"])
-    async def connect_command(self, ctx, *, channel: t.Optional[discord.VoiceChannel]):
+    async def connect_command(self, ctx, *, channel: t.Optional[nextcord.VoiceChannel]):
         player = self.get_player(ctx)
         channel = await player.connect(ctx, channel)
         await ctx.send(f"Connected to {channel.name}.")
@@ -449,7 +449,7 @@ class Music(commands.Cog, wavelink.WavelinkMixin):
         if player.queue.is_empty:
             raise QueueIsEmpty
 
-        embed = discord.Embed(
+        embed = nextcord.Embed(
             title="Queue",
             description=f"Showing up to next {show} tracks",
             colour=ctx.author.colour,
@@ -543,7 +543,7 @@ class Music(commands.Cog, wavelink.WavelinkMixin):
                 if len(data["lyrics"]) > 2000:
                     return await ctx.send(f"<{data['links']['genius']}>")
 
-                embed = discord.Embed(
+                embed = nextcord.Embed(
                     title=data["title"],
                     description=data["lyrics"],
                     colour=ctx.author.colour,
@@ -609,7 +609,7 @@ class Music(commands.Cog, wavelink.WavelinkMixin):
         if not player.is_playing:
             raise PlayerIsAlreadyPaused
 
-        embed = discord.Embed(
+        embed = nextcord.Embed(
             title="Now playing",
             colour=ctx.author.colour,
             timestamp=dt.datetime.utcnow(),
