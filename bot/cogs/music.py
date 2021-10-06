@@ -246,8 +246,11 @@ class Player(wavelink.Player):
             await msg.delete()
             await ctx.message.delete()
         else:
-            await msg.delete()
-            return tracks[OPTIONS[reaction.emoji]]
+            if reaction.emoji == "❌":
+                await msg.delete()
+            else:
+                await msg.delete()
+                return tracks[OPTIONS[reaction.emoji]]
 
     async def start_playback(self):
         await self.play(self.queue.current_track)
