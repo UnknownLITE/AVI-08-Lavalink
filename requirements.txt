@@ -1,2 +1,2 @@
-nextcord[voice]
+discord
 Wavelink
