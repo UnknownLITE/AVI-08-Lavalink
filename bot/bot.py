@@ -1,6 +1,6 @@
 from pathlib import Path
 
-import discord
+import discord, os
 from discord.ext import commands
 
 
@@ -21,7 +21,7 @@ class MusicBot(commands.Bot):
     def run(self):
         self.setup()
 
-        TOKEN="TOKEN"
+        TOKEN=os.environ["TOKEN"]
 
         print("Running bot...")
         super().run(TOKEN, reconnect=True)
