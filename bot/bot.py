@@ -1,7 +1,7 @@
 from pathlib import Path
 
-import discord, os
-from discord.ext import commands
+import nextcord, os
+from nextcord.ext import commands
 
 
 class MusicBot(commands.Bot):
